@@ -3,11 +3,29 @@
     padding: 0px;
 }
 body{
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+#app{
+    width: 500px;
+    height: 500px;
+    border-radius: 10px;
+    border: 1px solid black;
 }
 #messages{
     display: flex;
     flex-direction: column;
+    overflow: scroll;
+    border-bottom: 1px solid black;
+    height: 95%;
+}
+#message > button{
+    width: 10%;
+}
+#message{
+    height: 5%;
+    width: 90%;
 }
