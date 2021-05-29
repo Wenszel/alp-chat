@@ -25,20 +25,39 @@ class chat {
     sendMessage() {
         const message = this.messageInputEl.value;
         this.messageInputEl.value = "";
-        const data = {
-            message: message,
-            nick: this.nick,
-            color: this.color
-        };
-        $.ajax({
-            type: "POST",
-            url: "http://localhost/alp-chat/server.php",
-            data: data,
-            success: function() {
-
-            },
-            dataType: "application/json",
-        });
+        switch (message){
+            case "/nick":
+                let nick; 
+                while (!nick) {
+                    nick = prompt("Enter username");
+                }
+                break;
+            case "/color":
+                this.color = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+                break;
+            case "/quit":
+                location.reload();
+                break;
+            default:
+                if(message){
+                    const data = {
+                        time: new Date().getTime(),
+                        message: message,
+                        nick: this.nick,
+                        color: this.color
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost/alp-chat/server.php",
+                        data: data,
+                        success: function() {
+            
+                        },
+                        dataType: "application/json",
+                    });   
+                }
+        }
+            
     }
 }
 export default chat;
