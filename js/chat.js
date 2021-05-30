@@ -38,13 +38,19 @@ class Chat {
     async initMessagesListening(chatObject) {
         const response = await $.ajax({
             type: "GET",
-            url: `http://localhost/alp-chat/php/send.php?time=${Math.floor(new Date().getTime()/1000)}`,
+            url: `/php/send.php?time=${Math.floor(new Date().getTime()/1000)}`,
             dataType: "json",
         })
         .always(function() {
             chatObject.initMessagesListening(chatObject);
         });
-        response ? new Message(response) : null;  
+        if(response){
+            if(this.lastMessage?.time != response.time){
+                new Message(response)
+            }
+        }
+        this.lastMessage = response;
+        
     }
     // Send message to server with ajax
     sendMessage() {
@@ -74,7 +80,7 @@ class Chat {
                     };
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost/alp-chat/php/receive.php",
+                        url: "/php/receive.php",
                         data: data,
                         dataType: "json",
                     });   

@@ -7,7 +7,7 @@ export default class Message{
         nickEl.innerHTML = `< ${nick} > `;
         nickEl.style.color = color;
         const timeEl = document.createElement("p");
-        const formatDate =  new Date(time * 1000);
+        const formatDate =  new Date(parseInt(time));
         timeEl.innerHTML = `[${formatDate.getHours()}:${formatDate.getMinutes()}]: `;
         const textEl = document.createElement("p");
         textEl.innerHTML = message;

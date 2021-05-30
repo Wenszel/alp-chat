@@ -42,7 +42,7 @@ body{
 }
 .message{
     display: flex;
-    flex-direction: row !important;
-    height: 5%;
+    flex-direction: row;
+    height: 20px;
     width: 90%;
 }
