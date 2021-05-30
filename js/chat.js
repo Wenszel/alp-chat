@@ -3,6 +3,7 @@ class chat {
         this.nick = nick;
         this.color = `#${Math.floor(Math.random()*16777215).toString(16)}`;
         this.initHTML();
+        this.initMessagesListening();
     }
     // Create HTML chat elements
     initHTML() {
@@ -21,8 +22,20 @@ class chat {
         appEl.appendChild(messagesEl);
         appEl.appendChild(messageEditorEl);
     }
+    // If new message appears on the server this ajax will download it and display
+    initMessagesListening() {
+        $.ajax({
+            type: "GET",
+            url: `http://localhost/alp-chat/php/send.php?time=${new Date().getTime()}`,
+            dataType: "application/json",
+        })
+        .done(function() {
+        })
+        .always(function() {
+        });
+    }
     // Send message to server with ajax
-    sendMessage() {
+    async sendMessage() {
         const message = this.messageInputEl.value;
         this.messageInputEl.value = "";
         switch (message){
@@ -39,20 +52,17 @@ class chat {
                 location.reload();
                 break;
             default:
-                if(message){
+                if(message) {
                     const data = {
                         time: new Date().getTime(),
                         message: message,
                         nick: this.nick,
                         color: this.color
                     };
-                    $.ajax({
+                    await $.ajax({
                         type: "POST",
-                        url: "http://localhost/alp-chat/server.php",
+                        url: "http://localhost/alp-chat/php/receive.php",
                         data: data,
-                        success: function() {
-            
-                        },
                         dataType: "application/json",
                     });   
                 }
