@@ -9,15 +9,26 @@ class Chat {
     // Create HTML chat elements
     initHTML() {
         const appEl = document.getElementById("app");
+        // Container
         const messagesEl = document.createElement("div");
         messagesEl.id = "messages";
+        // Editor
         const messageEditorEl = document.createElement("div");
         messageEditorEl.id = "message-editor";
+        // Input
         this.messageInputEl = document.createElement("input");
+        this.messageInputEl.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+              event.preventDefault();
+              document.getElementById("send-button").click();
+            }
+        });
         this.messageInputEl.placeholder = "Type a message...";
+        // Button
         const sendButtonEl = document.createElement("div");
         sendButtonEl.id = "send-button";
         sendButtonEl.onclick = this.sendMessage.bind(this);
+        // Appending
         messageEditorEl.appendChild(this.messageInputEl);
         messageEditorEl.appendChild(sendButtonEl);
         appEl.appendChild(messagesEl);
@@ -33,7 +44,7 @@ class Chat {
         .always(function() {
             chatObject.initMessagesListening(chatObject);
         });
-        new Message(response);
+        response ? new Message(response) : null;  
     }
     // Send message to server with ajax
     sendMessage() {
@@ -45,6 +56,7 @@ class Chat {
                 while (!nick) {
                     nick = prompt("Enter username");
                 }
+                this.nick = nick;
                 break;
             case "/color":
                 this.color = `#${Math.floor(Math.random()*16777215).toString(16)}`;
