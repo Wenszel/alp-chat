@@ -40,7 +40,7 @@ body{
 }
 .message{
     display: flex;
-    flex-direction: row;
+    flex-direction: row !important;
     height: 5%;
     width: 90%;
 }

@@ -15,5 +15,6 @@ export default class Message{
         messageEl.appendChild(timeEl);
         messageEl.appendChild(textEl);
         container.appendChild(messageEl);
+        $('.message > p').emoticonize();
     }
 }
