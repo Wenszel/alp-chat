@@ -1,4 +1,5 @@
-class chat {
+import Message from './message.js';
+class Chat {
     constructor(nick) {
         this.nick = nick;
         this.color = `#${Math.floor(Math.random()*16777215).toString(16)}`;
@@ -23,18 +24,16 @@ class chat {
         appEl.appendChild(messageEditorEl);
     }
     // If new message appears on the server this ajax will download it and display
-    initMessagesListening(chatObject) {
-        $.ajax({
+    async initMessagesListening(chatObject) {
+        const response = await $.ajax({
             type: "GET",
             url: `http://localhost/alp-chat/php/send.php?time=${Math.floor(new Date().getTime()/1000)}`,
             dataType: "json",
         })
-        .done(function(message) {
-            console.log(message);
-        })
-        .always(function(message) {
+        .always(function() {
             chatObject.initMessagesListening(chatObject);
         });
+        new Message(response);
     }
     // Send message to server with ajax
     sendMessage() {
@@ -72,4 +71,4 @@ class chat {
             
     }
 }
-export default chat;
+export default Chat;

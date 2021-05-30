@@ -38,7 +38,9 @@ body{
 #message-editor > input{
     width: calc(100% - 20px);
 }
-#message{
+.message{
+    display: flex;
+    flex-direction: row;
     height: 5%;
     width: 90%;
 }
