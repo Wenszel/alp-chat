@@ -18,6 +18,8 @@ body{
 #messages{
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
     border-bottom: 1px solid black;
     height: 95%;
 }
