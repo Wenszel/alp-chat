@@ -10,8 +10,8 @@ class Chat {
     initHTML() {
         const appEl = document.getElementById("app");
         // Container
-        const messagesEl = document.createElement("div");
-        messagesEl.id = "messages";
+        this.messagesEl = document.createElement("div");
+        this.messagesEl.id = "messages";
         // Editor
         const messageEditorEl = document.createElement("div");
         messageEditorEl.id = "message-editor";
@@ -31,26 +31,26 @@ class Chat {
         // Appending
         messageEditorEl.appendChild(this.messageInputEl);
         messageEditorEl.appendChild(sendButtonEl);
-        appEl.appendChild(messagesEl);
+        appEl.appendChild(this.messagesEl);
         appEl.appendChild(messageEditorEl);
     }
     // If new message appears on the server this ajax will download it and display
     async initMessagesListening(chatObject) {
         const response = await $.ajax({
             type: "GET",
-            url: `/php/send.php?time=${Math.floor(new Date().getTime()/1000)}`,
+            url: `http://localhost/alp-chat/php/send.php?time=${Math.floor(new Date().getTime()/1000)}`,
             dataType: "json",
         })
         .always(function() {
             chatObject.initMessagesListening(chatObject);
         });
-        if(response){
-            if(this.lastMessage?.time != response.time){
-                new Message(response)
-            }
-        }
-        this.lastMessage = response;
-        
+        // If response is not null 
+        if (response) {
+            // For each object in response create message
+            response.forEach(message => new Message(message));
+            // Scroll to the bottom of the chat
+            this.messagesEl.scrollTo(0, this.messagesEl.scrollHeight);
+        }  
     }
     // Send message to server with ajax
     sendMessage() {
@@ -80,7 +80,7 @@ class Chat {
                     };
                     $.ajax({
                         type: "POST",
-                        url: "/php/receive.php",
+                        url: "http://localhost/alp-chat/php/receive.php",
                         data: data,
                         dataType: "json",
                     });   

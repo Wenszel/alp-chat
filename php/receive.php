@@ -6,5 +6,5 @@
         'color' => $_POST['color'],
         'message' => $_POST['message'],
     );
-    file_put_contents('data.txt', serialize($result));
+    file_put_contents('data.txt', serialize($result)."\n", FILE_APPEND);
 ?>
